@@ -4,7 +4,7 @@
 # or dow? And by how much? All of this is 
 # represented by the slop of that reponse at that 
 # point:
-# lim f(x) h -> 0 = (f(x + h) - f(x)) / h
+# lim f(x) h->0 = (f(x + h) - f(x)) / h
 
 #%%
 import math
