@@ -38,9 +38,9 @@ f(x + h)
 f(x + h) - f(x)
 
 # %%
-# Normalizing by the "run", that is, by h
-# we get an aproximation of the derivative
-# or the slop at point x
+# Normalizing by h we get an aproximation 
+# of the derivative or the slop at point
+# x (the rise over run, or y2-y1/x2-x1)
 (f(x + h) - f(x)) / h 
 
 # %%
@@ -97,3 +97,7 @@ print("db - d =", (db - d))
 dc = a * b + (c + h)
 print("dc - d =", (dc - d))
 (dc - d) / h
+
+#%%
+# The Chain Rule
+# https://en.wikipedia.org/wiki/Chain_rule#Intuitive_explanation

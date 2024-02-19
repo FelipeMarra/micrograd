@@ -3,6 +3,10 @@ class Value:
     """
         data = the value contained in this obj
 
+        grad = The derivative of this Value
+        with respect to the loss function in 
+        backprop. Initialized with 0
+
         _prev = a tuple of Values that created
         this one through a supported operation,
         e.g., in c = a + b the prevs of c are 
@@ -17,6 +21,7 @@ class Value:
 
     def __init__(self, data:float, prev:tuple=(), op='', label=''):
         self.data = data
+        self.grad = 0.0
         self._prev = set(prev)
         self._op = op
         self._label = label
