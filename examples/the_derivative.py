@@ -7,7 +7,6 @@
 # lim f(x) h->0 = (f(x + h) - f(x)) / h
 
 #%%
-import math
 import numpy as np
 import matplotlib.pyplot as plt
 
