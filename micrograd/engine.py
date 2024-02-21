@@ -33,6 +33,7 @@ class Value:
     def __repr__(self) -> str:
         return f"Value {self._label}: {self.data}"
 
+#################       Operators        #############################
     def __add__(self, other):
         """
             When the + operator is used, return
@@ -55,7 +56,17 @@ class Value:
         return out 
 
     def __radd__(self, other):
+        """
+            This function is called in cases like 2 + a,
+            where 2 doesn't know how to be added to the Value a.
+        """
         return Value(other) + self
+
+    def __neg__(self):
+        return self * -1
+
+    def __sub__(self, other):
+        return self + (-other)
 
     def __mul__(self, other):
         other = other if isinstance(other, Value) else Value(other)
@@ -79,7 +90,37 @@ class Value:
             so that a__mul__(2) will be executed instead.
         """
         return self * other
-    
+
+    def __truediv__(self, other):
+        """
+            Division of a by b (a/b), where a and b are Values.
+            Obviously to divide is the same as to multiply by the reciprocal.
+        """
+        return self * (other**-1)
+
+    def __pow__(self, other):
+        assert isinstance(other, (int, float)), "only supports ^(int or float)"
+        data = self.data**other
+        out = Value(data, (self, ), '^')
+
+        def _backward():
+            self.grad += other * self.data ** (other - 1) * out.grad
+
+        out.grad = _backward
+
+        return out
+
+    def exp(self):
+        data = math.exp(self.data)
+        out = Value(data, (self,), 'exp')
+
+        def _backward():
+            self.grad += data * out.grad
+
+        out.grad = _backward
+
+        return out
+################# Activation Functions #############################
     def tanh(self):
         x = self.data
         # e^(2x) -1 / e^(2x) +1
@@ -93,6 +134,7 @@ class Value:
 
         return out
 
+#################       Backprop          #############################
     def backward(self):
         topo = []
         visited = set()
