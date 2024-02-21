@@ -54,6 +54,9 @@ class Value:
         out._backward = _backward
         return out 
 
+    def __radd__(self, other):
+        return Value(other) + self
+
     def __mul__(self, other):
         other = other if isinstance(other, Value) else Value(other)
         data = self.data * other.data
