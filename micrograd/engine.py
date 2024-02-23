@@ -60,7 +60,7 @@ class Value:
             This function is called in cases like 2 + a,
             where 2 doesn't know how to be added to the Value a.
         """
-        return Value(other) + self
+        return self + other
 
     def __neg__(self):
         return self * -1
@@ -101,12 +101,12 @@ class Value:
     def __pow__(self, other):
         assert isinstance(other, (int, float)), "only supports ^(int or float)"
         data = self.data**other
-        out = Value(data, (self, ), '^')
+        out = Value(data, (self, ), f"^{other}")
 
         def _backward():
-            self.grad += other * self.data ** (other - 1) * out.grad
+            self.grad += other * (self.data ** (other - 1)) * out.grad
 
-        out.grad = _backward
+        out._backward = _backward
 
         return out
 
@@ -115,9 +115,9 @@ class Value:
         out = Value(data, (self,), 'exp')
 
         def _backward():
-            self.grad += data * out.grad
+            self.grad += out.data * out.grad
 
-        out.grad = _backward
+        out._backward = _backward
 
         return out
 ################# Activation Functions #############################
