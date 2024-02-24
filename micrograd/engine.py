@@ -154,4 +154,3 @@ class Value:
             node._backward()
 
         self.grad = 1
-# %%
