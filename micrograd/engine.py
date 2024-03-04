@@ -19,7 +19,9 @@ class Value:
         value, e.g, in c = a + b the op of c
         is +
 
-        _label = string for better identification
+        _label = user defined "variable name", e.g, 
+        c = a + b; c._label = "c". Used in the __str__ 
+        function
     """
 
     def __init__(self, data:float, prev:tuple=(), op='', label=''):
@@ -30,8 +32,11 @@ class Value:
         self._op = op
         self._label = label
 
-    def __repr__(self) -> str:
+    def __str__(self) -> str:
         return f"Value {self._label}: {self.data}"
+
+    def __repr__(self) -> str:
+        return f"Value({self.data}, {self._prev}, {self._op}, {self._label})"
 
 #################       Operators        #############################
     def __add__(self, other):
