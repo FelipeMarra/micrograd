@@ -36,7 +36,7 @@ class Value:
         return f"Value {self._label}: {self.data}"
 
     def __repr__(self) -> str:
-        return f"Value({self.data}, {self._prev}, {self._op}, {self._label})"
+        return f"Value({self.data}, {self._op}, {self._label})"
 
 #################       Operators        #############################
     def __add__(self, other):
@@ -86,7 +86,7 @@ class Value:
         out._backward = _backward
 
         return out
-    
+
     def __rmul__(self, other):
         """
             This function is called in cases like 2 * a,
@@ -125,6 +125,7 @@ class Value:
         out._backward = _backward
 
         return out
+
 ################# Activation Functions #############################
     def tanh(self):
         x = self.data
