@@ -8,9 +8,8 @@ class Neuron():
     def __init__(self, in_size:int) -> None:
         self.w = [Value(random.uniform(-1,1)) for _ in range(in_size)]
         self.b = Value(random.uniform(-1,1))
-    
 
-    def __call__(self, x:Value) -> Value:
+    def __call__(self, x:list[Value]) -> Value:
         """
             Allows one to call an object as 
             a function, e.g., n = Neuron()
@@ -23,6 +22,9 @@ class Neuron():
         linear = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)
         return linear.tanh()
 
+    def parameters(self):
+        return self.w + [self.b]
+
 class Layer():
     def __init__(self, in_size:int, layer_size:int) -> None:
         self.neurons = [Neuron(in_size) for _ in range(layer_size)]
@@ -33,7 +35,14 @@ class Layer():
         for n in self.neurons:
             activations.append(n(x))
 
-        return activations
+        return activations[0] if len(activations) == 1 else activations
+
+    def parameters(self) -> list[Value]:
+        # params = []
+        # for neuron in self.neurons:
+        #     params.extend(neuron.parameters())
+        # return params
+        return [p for neuron in self.neurons for p in neuron.parameters()]
 
 class MLP():
     def __init__(self, in_size:int, layers_sizes:list[int]) -> None:
@@ -44,4 +53,7 @@ class MLP():
         for l in self.layers:
             x = l(x)
 
-        return x[0] if len(x) == 1 else x
+        return x
+
+    def parameters(self):
+        return [p for layer in self.layers for p in layer.parameters()]
